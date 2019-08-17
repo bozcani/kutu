@@ -5,17 +5,15 @@ class Dataset(ABC):
     """
     Dataset class. The most base class for dataset construction.
     Variables are following:
-        _source: Source file of the dataset. Usually .zip file downloaded from an origin.
         _root_folder: Path to root folder that dataset will be constructed.
         _num_samples: The number of samples in the dataset.
         _num_train_samples: The number of train samples in the dataset.
-        _num_samples: The number of validation samples in the dataset.
-        _num_samples: The number of test samples in the dataset.
+        _num_val_samples: The number of validation samples in the dataset.
+        _num_test_samples: The number of test samples in the dataset.
 
     All variables are implemented as private. Therefore, they have getter and setter properties.
     """
 
-    _source: str
     _root_folder: str
     _num_samples: int
     _num_train_samples: int
@@ -23,24 +21,11 @@ class Dataset(ABC):
     _num_test_samples: int
 
     def __init__(self):
-        self._source = ""
         self._root_folder = ""
         self._num_samples = 0
         self._num_train_samples = 0
         self._num_val_samples = 0
         self._num_test_samples = 0
-
-    @property
-    def source(self):
-        return self._source
-
-    @source.setter
-    def source(self, s):
-        if type(s) is not str:
-            raise TypeError('Arg (path to source file of the dataset) must be String but got type %s' % type(s))
-        elif s == "":
-            raise ValueError('Arg (source) cannot be empty string')
-        self._source = s
 
     @property
     def root_folder(self):

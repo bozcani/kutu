@@ -5,38 +5,8 @@ from kutu.dataset import Dataset
 class TestDataset(unittest.TestCase):
     """
     Unit tests for Dataset class.
-    Run 6 tests in total.
+    Run 5 tests in total.
     """
-
-    def test_source(self):
-        """
-        Test source variable.
-        :return:
-        """
-        dataset = Dataset()
-
-        # Check TypeError for invalid inputs.
-        with self.assertRaises(TypeError):
-            dataset.source = 3
-        with self.assertRaises(TypeError):
-            dataset.source = 3.0
-        with self.assertRaises(TypeError):
-            dataset.source = [3, 3]
-        with self.assertRaises(TypeError):
-            dataset.source = (3, 3)
-        with self.assertRaises(TypeError):
-            dataset.source = None
-
-        # Check ValueError for empty string.
-        with self.assertRaises(ValueError):
-            dataset.source = ""
-
-        # Set source variable.
-        dataset.source = 'path/to/source'
-        self.assertEqual(dataset.source, 'path/to/source')
-
-        dataset.source = 'path2/to/source2'
-        self.assertEqual(dataset.source, 'path2/to/source2')
 
     def test_root_folder(self):
         """
