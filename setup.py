@@ -7,5 +7,9 @@ setup(
     author = "Ilker Bozcan",
     author_email = "ilker@eng.au.dk",
     description = ("Machine Learning toolbox for my Ph.D."),
+<<<<<<< e2d71508555f5db8f225023deb010c41c2864bdd
     packages=['kutu']
+=======
+    packages=['kutu'], install_requires=['numpy', 'wget', 'cv2']
+>>>>>>> image classification dataset
 )

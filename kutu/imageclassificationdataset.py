@@ -1,5 +1,7 @@
 from kutu.dataset import Dataset
 
+from os.path import join, exists, isdir
+from os import listdir
 
 class ImageClassificationDataset(Dataset):
     """
@@ -19,12 +21,60 @@ class ImageClassificationDataset(Dataset):
     _num_classes: int
     _class_labels: list
 
-    def __init__(self):
+
+    def __init__(self, root_folder):
         super(ImageClassificationDataset, self).__init__()
         self._image_shape = (0, 0)
         self._train_mean = 0.
         self._num_classes = 0
         self._class_labels = []
+
+
+        self._root_folder = root_folder
+        train_folder = join(root_folder, 'train')
+        test_folder = join(root_folder, 'test')
+        val_folder = join(root_folder, 'validation')
+
+        if exists(train_folder):
+            self._train_folder = train_folder
+            train_classes = [f for f in listdir(train_folder) if isdir(train_folder)]
+            train_classes.sort()
+            temp = [str(c) for c in range(len(train_classes))]
+            if train_classes != temp:
+                raise RuntimeError("Train classes have wrong enumeration: %s, but expected: %s" % (str(train_classes), str(temp)))
+
+        else:
+            raise RuntimeError("Train folder not found, %s does not exist" % self._train_folder)
+
+        if exists(test_folder):
+            self._test_folder = test_folder
+            test_classes = [f for f in listdir(test_folder) if isdir(test_folder)]
+            test_classes.sort()
+            temp = [str(c) for c in range(len(test_classes))]
+
+            if test_classes != temp:
+                raise RuntimeError("Test classes have wrong enumeration: %s, but expected: %s" % (str(test_classes), str(temp)))
+
+        else:
+            self._test_folder = None
+
+        if exists(val_folder):
+            self._validation_folder = val_folder
+            val_classes = [f for f in listdir(val_folder) if isdir(val_folder)]
+            val_classes.sort()
+            temp = [str(c) for c in range(len(val_classes))]
+            if val_classes != temp:
+                raise RuntimeError("Validation classes have wrong enumeration: %s, but expected: %s" % (str(val_classes), str(temp)))
+
+        else:
+            self._validation_folder = None
+
+
+        # TODO Class check
+        # Train, val ve test classlari birbiri ile alakali mi kontrol eden bir func yaz.
+        # Test veya val'da train'de olmayan classlar varsa ne olacak?
+
+
 
     @property
     def image_shape(self):
@@ -67,3 +117,5 @@ class ImageClassificationDataset(Dataset):
 
     def calculate_train_mean(self):
         raise NotImplemented()
+
+ImageClassificationDataset('cifar-10')
